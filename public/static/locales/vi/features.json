@@ -1,0 +1,14 @@
+{
+  "features": {
+    "seo": "Ưu điểm của cách tiếp cận này là khả năng tạo ra trải nghiệm Người dùng phong phú một cách đồng nhất, mà không ảnh hưởng đến các yếu tố Tối ưu hóa Công cụ Tìm kiếm (SEO), yếu tố then chốt để có thứ hạng tốt trên Google và các công cụ tìm kiếm khác.",
+    "reduxSaga": "Là một thư viện nhằm mục đích làm cho các hiệu ứng phụ của ứng dụng (tức là những thứ không đồng bộ như tìm nạp dữ liệu và những thứ không tinh khiết như truy cập bộ nhớ cache của trình duyệt) dễ quản lý hơn, thực thi hiệu quả hơn, dễ kiểm tra và xử lý lỗi tốt hơn.",
+    "nextI18next": "Là một plugin cho các dự án Next.js cho phép bạn tải và chạy bản dịch một cách nhanh chóng và dễ dàng, đồng thời hỗ trợ đầy đủ SSR, nhiều không gian tên với tính năng tách mã, v.v.",
+    "i18next": "Là một khuôn khổ quốc tế hóa được viết bằng và cho JavaScript. Nhưng nó còn nhiều hơn thế nữa.",
+    "redux": "Là một vùng chứa trạng thái có thể dự đoán được cho các ứng dụng JavaScript.",
+    "reselect": "Thư viện “bộ chọn” đơn giản dành cho Redux (và những người khác) lấy cảm hứng từ các getters trong NuclearJS, các đăng ký trong khung lại và đề xuất này từ speedkater.",
+    "immer": "(Tiếng Đức nghĩa là: luôn luôn) là một gói nhỏ cho phép bạn làm việc với trạng thái bất biến theo cách thuận tiện hơn. Nó dựa trên cơ chế copy-on-write.",
+    "testingLibraryReact": "Các tiện ích thử nghiệm React DOM đơn giản và đầy đủ khuyến khích các phương pháp thử nghiệm tốt.",
+    "typefaces": "Tự lưu trữ nhanh hơn đáng kể. Việc tải một kiểu chữ từ Google Fonts hoặc dịch vụ phông chữ được lưu trữ khác sẽ thêm một yêu cầu mạng (chặn) bổ sung.",
+    "emotion": "Emotion là một thư viện được thiết kế để viết các kiểu css bằng JavaScript. Nó cung cấp thành phần phong cách mạnh mẽ và có thể dự đoán được ngoài trải nghiệm tuyệt vời dành cho nhà phát triển với các tính năng như bản đồ nguồn, nhãn và tiện ích thử nghiệm."
+  }
+}

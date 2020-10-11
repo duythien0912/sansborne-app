@@ -1,0 +1,64 @@
+{
+  "default": "Message in english",
+  "es": "Spanish",
+  "ja": "Japanese",
+  "en": "English",
+  "vi": "Vietnamese",
+  "phrases": {
+    "features": "Features",
+    "apiExample": "API example",
+    "getShowcases": "Companies / Sites using Next.js"
+  },
+  "name": "SCHOLA LEARN 🚀",
+  "title": "Live, online classes for curious kids ages 4 - 9 ❤️",
+  "subtitle": "Have your child learn about interesting topics from awesome, engaging teachers. All you need is Zoom.",
+  "email": {
+    "placeholder": " Your Email Address"
+  },
+  "start_button": {
+    "text": "Start For Free"
+  },
+  "login_action": "Login",
+  "subtext": "👍  No card required. Seriously.",
+  "makewith": "Made with ☕ in Florida",
+  "privacy_policy": "Privacy Policy",
+  "terms_of_service": "Terms of Service",
+  "about_us": "About Us",
+  "register": {
+    "title": "Sign-Up For a Class 😄",
+    "subtitle_topic": "🚀 Tap the topics your children would be interested in. Pick as many as you want!",
+    "subtitle_time": "📅 Tap on the days that would work best for you for an online class.",
+    "label_name": "What's your name?",
+    "label_email": "What's your email address?",
+    "label_phone": "What's your phone number?",
+    "label_password": "Set a password.",
+    "placeholder_name": "Alice",
+    "placeholder_email": "you@gmail.com",
+    "placeholder_phone": "9542572554",
+    "button_action": "Next"
+  },
+  "dashboard": {
+    "title": "Upcoming Live Classes 🔍",
+    "subtitle": "Hi there, {{ name }}. Hope you're having an awesome day. Go ahead and book some classes!",
+    "promote_group": "👍 Join Schola's Facebook Group where you can get",
+    "promote_group_li": {
+      "0": "Bonus material",
+      "1": "Chat with teachers",
+      "2": "Join smaller classes"
+    },
+    "promote_group_action": "Join Facebook Group",
+    "promote_share": "❤️ Have friends with kids? Click the button below to share with your friends and get more some free classes!",
+    "promote_group_share": "Copy Link"
+  },
+  "success": {
+    "title": "Success!",
+    "subtitle": "Yay! You're all set. We sent an email to {{email}} with more info. See you on {{time}}",
+    "share_acion": "Share with your friends and get more free classes",
+    "share_subtitle": "",
+    "close_action": "close"
+  },
+  "error": {
+    "email": "Email can't be blank",
+    "email_phone": "Email or Phone can't be blank"
+  }
+}

@@ -1,0 +1,64 @@
+{
+  "default": "Tin nhắn bằng Tiếng Anh",
+  "es": "Tiếng Tây Ban Nha",
+  "ja": "Tiếng Nhật",
+  "en": "Tiếng Anh",
+  "vi": "Tiếng Việt",
+  "phrases": {
+    "features": "Đặc trưng",
+    "apiExample": "Ví dụ về API",
+    "getShowcases": "Các công ty / Trang web sử dụng Next.js"
+  },
+  "name": "SCHOLA LEARN 🚀",
+  "title": "Các lớp học trực tuyến LIVE với giáo viên chất lượng cao dành cho các bé từ 4-12 tuổi ❤️",
+  "subtitle": "Bé học cùng đội ngũ giáo viên chất lượng cao về các chủ đề thú vị. Tất cả những gì bạn cần là phần mềm Zoom.",
+  "email": {
+    "placeholder": "Địa chỉ email của bạn"
+  },
+  "start_button": {
+    "text": "Bắt đầu miễn phí"
+  },
+  "login_action": "Đăng nhập",
+  "subtext": "👍 Miễn phí hoàn toàn. 100%.",
+  "makewith": "Làm bằng ☕ ở VietNam",
+  "privacy_policy": "Chính sách bảo mật",
+  "terms_of_service": "Điều khoản dịch vụ",
+  "about_us": "Về Schola",
+  "register": {
+    "title": "Đăng ký Lớp học 😄",
+    "subtitle_topic": "🚀 Nhấn chọn các chủ đề học mà con bạn quan tâm. Không giới hạn số lượng chủ đề! ",
+    "subtitle_time": "📅 Nhấn chọn thời gian phù hợp nhất với bé để tham gia lớp học LIVE trực tuyến nhé!",
+    "label_name": "Bạn tên là gì?",
+    "label_email": "Địa chỉ email của bạn",
+    "label_phone": "Số điện thoại của bạn",
+    "label_password": "Đặt mật khẩu.",
+    "placeholder_name": "Trang",
+    "placeholder_email": "your@gmailCom",
+    "placeholder_phone": "09542572554",
+    "button_action": "Đăng kí học ngay"
+  },
+  "dashboard": {
+    "title": "Các lớp học trực tiếp có sẵn 🔍",
+    "subtitle": "Xin chào, {{name}}. Chúc anh/chị một ngày đầy niềm vui. Hãy tiếp tục đặt lớp học cho bé nào!!",
+    "promote_group": "👍 Tham gia nhóm cộng đồng của Schola Live nơi bạn có thể nhận được ",
+    "promote_group_li": {
+      "0": "Nhiều tài liệu bổ ích dành cho bé",
+      "1": "Trao đổi với giáo viên",
+      "2": "Tham gia các lớp học ít học viên hơn"
+    },
+    "promote_group_action": "Tham gia nhóm cộng đồng",
+    "promote_share": "❤️ Anh/Chị cũng có bạn bè có con nhỏ? Nhấp vào nút bên dưới để chia sẻ với bạn bè của bạn và nhận thêm lớp học miễn phí nào!",
+    "promote_group_share": "Sao chép đường dẫn"
+  },
+  "success": {
+    "title": "Thành công!",
+    "subtitle": "Yay! Bạn đã đăng kí thành công Schola sẽ gửi email tới {{email}} với hướng dẫn chi tiết. Hẹn gặp anh/chị và bé vào ngày {{time}}",
+    "share_acion": "Chia sẻ với bạn bè và nhận ngay lớp học miễn phí!",
+    "share_subtitle": "",
+    "close_action": "đóng"
+  },
+  "error": {
+    "email": "Không được để trống Email ",
+    "email_phone": "Không được để trống Email hoặc Số điện thoại"
+  }
+}

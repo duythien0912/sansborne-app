@@ -1,0 +1,64 @@
+{
+  "default": "英語でのメッセージ",
+  "es": "スペイン語",
+  "ja": "日本人",
+  "en": "英語",
+  "vi": "ベトナム人",
+  "phrases": {
+    "features": "特徴",
+    "apiExample": "APIの例",
+    "getShowcases": "Next.jsを使用している企業/サイト"
+  },
+  "name": "スコラ・ラーン 🚀",
+  "title": "好奇心旺盛な4歳から9歳の子供向けのライブオンラインクラス",
+  "subtitle": "あなたの子供に素晴らしい、魅力的な教師から興味深いトピックについて学んでもらいます。必要なのはズームだけです。",
+  "email": {
+    "placeholder": "メールアドレス"
+  },
+  "start_button": {
+    "text": "無料で開始"
+  },
+  "login_action": "ログインする",
+  "subtext": "cardカードは必要ありません。真剣に。",
+  "makewith": "☕でフロリダで作られました",
+  "privacy_policy": "個人情報保護方針",
+  "terms_of_service": "利用規約",
+  "about_us": "私たちに関しては",
+  "register": {
+    "title": "クラスへのサインアップ 😄",
+    "subtitle_topic": "your子供が興味を持つトピックをタップします。好きなだけ選んでください！",
+    "subtitle_time": "anオンラインクラスに最適な日をタップします。",
+    "label_name": "あなたの名前を教えて？",
+    "label_email": "あなたの電子メールアドレスを教えてください？",
+    "label_phone": "あなたの電話番号は何ですか？",
+    "label_password": "パスワードを設定します。",
+    "placeholder_name": "アリス",
+    "placeholder_email": "you@gmailCom",
+    "placeholder_phone": "9542572554",
+    "button_action": "次"
+  },
+  "dashboard": {
+    "title": "今後のライブクラス 🔍",
+    "subtitle": "こんにちは、{{ name }}。素晴らしい一日をお過ごしください。さあ、いくつかのクラスを予約してください！",
+    "promote_group": "Sch入手できるScholaのFacebookグループに参加する",
+    "promote_group_li": {
+      "0": "ボーナス素材",
+      "1": "教師とチャットする",
+      "2": "小さなクラスに参加する"
+    },
+    "promote_group_action": "Facebookグループに参加",
+    "promote_share": "❤️ 子供と友達がいますか？下のボタンをクリックして友達と共有し、無料のクラスをさらに入手してください！",
+    "promote_group_share": "リンクをコピーする"
+  },
+  "success": {
+    "title": "成功！",
+    "subtitle": "わーい！これで準備は完了です。詳細を記載したメールを {{ email }} に送信しました。 {{ time }}でお会いしましょう",
+    "share_acion": "友達と共有して、無料のクラスを増やしましょう",
+    "share_subtitle": "",
+    "close_action": "閉じる"
+  },
+  "error": {
+    "email": "メールアドレスは空白にできません",
+    "email_phone": "メールアドレスまたは電話番号を空白にすることはできません"
+  }
+}
