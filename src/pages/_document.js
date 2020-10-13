@@ -12,6 +12,7 @@ class MyDocument extends Document {
           <link rel="apple-touch-icon" sizes="76x76" href={require('assets/img/brand/apple-icon.png')} />
           <link href="/static/styles.css" rel="stylesheet" />
         </Head>
+        <script src="/static/instantpage-5.1.0.js" type="module" defer></script>
         <body className="text-gray-800 antialiased">
           <div id="page-transition"></div>
           <Main />
