@@ -63,6 +63,15 @@ export default function CustomersCardTable({ color }) {
                   }>
                   Phone
                 </th>
+                <th
+                  className={
+                    'text-center px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-no-wrap font-semibold text-left ' +
+                    (color === 'light'
+                      ? 'bg-gray-100 text-gray-600 border-gray-200'
+                      : 'bg-gray-700 text-gray-300 border-gray-600')
+                  }>
+                  Birthday
+                </th>
 
                 <th
                   className={
@@ -126,6 +135,9 @@ export default function CustomersCardTable({ color }) {
                         </td>
                         <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4">
                           {val.phone}
+                        </td>
+                        <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4">
+                          {val.birthday ? new Date(val.birthday).toLocaleDateString('vi-VN') : ''}
                         </td>
                         <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4">
                           {val.email}

@@ -13,7 +13,7 @@ class MyDocument extends Document {
           <link href="/static/styles.css" rel="stylesheet" />
         </Head>
         <script src="/static/instantpage-5.1.0.js" type="module" defer></script>
-        <body className="text-gray-800 antialiased">
+        <body className="text-gray-800 antialiased" style={{ background: '#f0f2f5' }}>
           <div id="page-transition"></div>
           <Main />
           <NextScript />

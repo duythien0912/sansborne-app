@@ -401,7 +401,7 @@ export default function Sidebar() {
                     }>
                     <i
                       className={
-                        'fas fa-code mr-2 text-sm ' +
+                        'fas fa-users mr-2 text-sm ' +
                         (router.pathname.indexOf('/admin/customers') !== -1 ? 'opacity-75' : 'text-gray-400')
                       }></i>{' '}
                     Customers

@@ -7,6 +7,7 @@ import React from "react";
 
 import Admin from "layouts/Admin.js";
 import CustomersCardTable from "components/Cards/CardTableCustomers";
+import CardTableCustomers2 from "components/Cards/CardTableCustomers2";
 
 export default function Tables() {
   return (
@@ -16,7 +17,8 @@ export default function Tables() {
           <CardTable />
         </div> */}
         <div className="w-full mb-12 md:px-4">
-          <CustomersCardTable color="dark" />
+          {/* <CustomersCardTable color="dark" /> */}
+          <CardTableCustomers2 />
         </div>
       </div>
     </>
