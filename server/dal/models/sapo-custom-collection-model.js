@@ -2,4 +2,8 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
-module.exports = mongoose.model('CustomCollections', new Schema({}, { strict: false }), 'custom_collections');
+module.exports = mongoose.model(
+  'CustomCollections',
+  new Schema({}, { strict: false, timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' } }),
+  'custom_collections'
+);

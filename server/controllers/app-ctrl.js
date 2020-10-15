@@ -13,6 +13,9 @@ const { pick } = require('lodash');
 const { UsersMembershipsvr } = require('../services/sapo-user-membership-srv');
 const { SapoCtrl } = require('./sapo-ctrl');
 var { membershipCron, syncDataCron, mockCorn } = require('../crons/membership');
+const fullTextSearch = require('fulltextsearch');
+var fullTextSearchVi = fullTextSearch.vi;
+const moment = require('moment');
 
 class AppCtrl {
   static timeChangeBackup = 5;
@@ -32,13 +35,63 @@ class AppCtrl {
 
   static async getManyCustomer(req, res) {
     const { query } = req;
+    const optionsSearch = pick(query, [
+      'results',
+      'page',
+      'pagination',
+      'searchName',
+      'searchPhone',
+      'searchEmail',
+      'searchDate',
+    ]);
+    const { current, pageSize, position, total } = optionsSearch.pagination;
     const options = pick(query, ['limit', 'offset', 'sort']);
+    options.limit = pageSize;
+    options.offset = current;
+    options.searchName = optionsSearch.searchName;
+    options.searchPhone = optionsSearch.searchPhone;
+    options.searchEmail = optionsSearch.searchEmail;
+    options.searchDate = optionsSearch.searchDate;
+    console.log(options);
 
-    const customers = await SapoCustomerSrv.readMany({}, options);
+    var filter = {};
+    if (options.searchName != null && options.searchName != '') {
+      filter.first_name = new RegExp(fullTextSearchVi(options.searchName), 'i');
+    }
+    if (options.searchPhone != null && options.searchPhone != '') {
+      filter.phone = new RegExp(fullTextSearchVi(options.searchPhone), 'i');
+    }
+    if (options.searchEmail != null && options.searchEmail != '') {
+      filter.email = new RegExp(fullTextSearchVi(options.searchEmail), 'i');
+    }
+    if (options.searchDate != null) {
+      if (
+        options.searchDate.from != null &&
+        options.searchDate.from != '' &&
+        options.searchDate.to != null &&
+        options.searchDate.to != ''
+      ) {
+        filter.birthday = {
+          $gte: moment(options.searchDate.from)
+            .endOf('day')
+            .toDate(),
+          $lte: moment(options.searchDate.to)
+            .endOf('day')
+            .toDate(),
+        };
+      }
+    }
 
+    console.log(filter);
+    // filter.first_name = new RegExp(fullTextSearchVi(options.searchName), 'i');
+
+    const customers = await SapoCustomerSrv.searchMany(filter, options);
+    const count = await SapoCustomerSrv.countDocuments(filter);
     return res.ok({
       data: customers,
       limit: customers.length,
+      filter: filter,
+      total: count,
     });
   }
 

@@ -6767,6 +6767,11 @@ fstream@^1.0.0, fstream@^1.0.12:
     mkdirp ">=0.5 0"
     rimraf "2"
 
+fulltextsearch@^0.0.6:
+  version "0.0.6"
+  resolved "https://registry.npm.taobao.org/fulltextsearch/download/fulltextsearch-0.0.6.tgz#6cf1979d8e33a8a9038c35b8dc08e813d719e730"
+  integrity sha1-bPGXnY4zqKkDjDW43AjoE9cZ5zA=
+
 function-bind@^1.1.1:
   version "1.1.1"
   resolved "https://registry.npm.taobao.org/function-bind/download/function-bind-1.1.1.tgz#a56899d3ea3c9bab874bb9773b7c5ede92f4895d"

@@ -9,6 +9,15 @@ class SapoCustomerSrv {
       .skip(+options.offset)
       .sort(options.sort);
   }
+  static async searchMany(query, options) {
+    return Customers.find(query)
+      .limit(+options.limit || 10)
+      .skip(+options.offset - 1)
+      .sort(options.sort);
+  }
+  static async countDocuments(query) {
+    return Customers.countDocuments(query);
+  }
 
   static async readAll(query) {
     return Customers.find(query, null, { lean: true });

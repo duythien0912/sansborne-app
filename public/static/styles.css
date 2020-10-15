@@ -1,3 +1,9 @@
+.fcenter {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .px-8 {
     padding-left: 2rem;
     padding-right: 2rem;

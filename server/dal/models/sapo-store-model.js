@@ -2,4 +2,8 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
-module.exports = mongoose.model('Stores', new Schema({}, { strict: false }), 'stores');
+module.exports = mongoose.model(
+  'Stores',
+  new Schema({}, { strict: false, timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' } }),
+  'stores'
+);

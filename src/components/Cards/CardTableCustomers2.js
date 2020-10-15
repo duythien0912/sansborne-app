@@ -1,9 +1,11 @@
-import { Table, Button, Input, Space, notification, Alert } from 'antd';
+import { Table, Button, Input, Space, notification, DatePicker, Alert } from 'antd';
 import 'antd/dist/antd.css';
 import React from 'react';
 import reqwest from 'reqwest';
 import Highlighter from 'react-highlight-words';
 import { SearchOutlined } from '@ant-design/icons';
+
+const { RangePicker } = DatePicker;
 
 const getRandomuserParams = params => {
   return {
@@ -17,6 +19,13 @@ const showHeader = true;
 
 class CardTableCustomers2 extends React.Component {
   state = {
+    searchName: '',
+    searchPhone: '',
+    searchEmail: '',
+    searchDate: {
+      from: '',
+      to: '',
+    },
     searchText: '',
     searchedColumn: '',
     bordered: true,
@@ -156,13 +165,18 @@ class CardTableCustomers2 extends React.Component {
 
   handleTableChange = (pagination, filters, sorter, extra) => {
     // console.log('params', pagination, filters, sorter, extra);
-    this.fetch({
-      sortField: sorter.field,
-      sortOrder: sorter.order,
-      sorter: sorter.length == undefined ? [sorter] : sorter,
-      pagination,
-      ...filters,
-    });
+    const { searchName, searchPhone, searchEmail, searchDate } = this.state;
+    // this.fetch({
+    //   searchName,
+    //   searchPhone,
+    //   searchEmail,
+    //   searchDate,
+    //   sortField: sorter.field,
+    //   sortOrder: sorter.order,
+    //   sorter: sorter.length == undefined ? [sorter] : sorter,
+    //   pagination,
+    //   ...filters,
+    // });
   };
   fetch = (params = {}) => {
     this.setState({
@@ -187,13 +201,33 @@ class CardTableCustomers2 extends React.Component {
     });
   };
 
+  onSearch = () => {
+    const { pagination, searchName, searchPhone, searchEmail, searchDate } = this.state;
+    this.fetch({
+      pagination,
+      searchName,
+      searchPhone,
+      searchEmail,
+      searchDate,
+    });
+    notification['success']({
+      message: 'Success',
+      description: '',
+      duration: 1,
+      // placement: 'bottomRight',
+    });
+  };
+
   render() {
     const columns = [
       {
         title: 'Name',
         key: 'name',
         sortDirections: ['descend'],
-        render: record => `${record.first_name}${record.last_name != null ? ' ' + record.last_name : ''}`,
+        render: record =>
+          `${record != null && record.first_name != null ? record.first_name : ''}${
+            record != null && record.last_name != null ? ' ' + record.last_name : ''
+          }`,
         sorter: {
           compare: (a, b) => (a && b ? a.first_name.length - b.first_name.length : null),
           multiple: 1,
@@ -202,11 +236,10 @@ class CardTableCustomers2 extends React.Component {
       },
       {
         title: 'Phone',
-        dataIndex: 'phone',
         key: 'phone',
-        sortDirections: ['descend'],
+        render: record => record.phone,
         sorter: {
-          //   compare: (a, b) => a.length - b.length,
+          compare: (a, b) => (a && b && a.phone != null && b.phone != null ? a.phone.length - b.phone.length : null),
           multiple: 2,
         },
         // ...this.getColumnSearchProps('phone'),
@@ -216,7 +249,7 @@ class CardTableCustomers2 extends React.Component {
         key: 'email',
         dataIndex: 'email',
         sorter: {
-          //   compare: (a, b) => a.email.length - b.email.length,
+          compare: (a, b) => a.length - b.length,
           multiple: 4,
         },
         // ...this.getColumnSearchProps('email'),
@@ -252,7 +285,7 @@ class CardTableCustomers2 extends React.Component {
         key: 'total_spent',
         dataIndex: 'total_spent',
         sorter: {
-          compare: (a, b) => a - b,
+          compare: (a, b) => parseInt(a) - parseInt(b),
           multiple: 5,
         },
       },
@@ -311,6 +344,15 @@ class CardTableCustomers2 extends React.Component {
               this.fetch({
                 pagination,
               });
+              this.setState({
+                searchName: '',
+                searchPhone: '',
+                searchEmail: '',
+                searchDate: {
+                  from: '',
+                  to: '',
+                },
+              });
               notification['success']({
                 message: 'Success',
                 description: '',
@@ -322,15 +364,20 @@ class CardTableCustomers2 extends React.Component {
             Reload
           </Button>
         </div>
-        <div className="mb-2 flex">
+        <div className="mb-2 flex fcenter">
           <Input
             ref={node => {
               this.searchInput = node;
             }}
             placeholder={`Search Name`}
-            onChange={e => {}}
+            onChange={e => {
+              this.setState({ searchName: e.target.value });
+            }}
             onPressEnter={() => {}}
-            style={{ width: 200, marginBottom: 8, display: 'block' }}
+            style={{ height: '40px', width: 200, display: 'block' }}
+            onSubmit={() => {
+              this.onSearch();
+            }}
           />
           <div className="px-2"></div>
           <Input
@@ -338,9 +385,14 @@ class CardTableCustomers2 extends React.Component {
               this.searchInput = node;
             }}
             placeholder={`Search Phone`}
-            onChange={e => {}}
+            onChange={e => {
+              this.setState({ searchPhone: e.target.value });
+            }}
             onPressEnter={() => {}}
-            style={{ width: 200, marginBottom: 8, display: 'block' }}
+            style={{ height: '40px', width: 200, display: 'block' }}
+            onSubmit={() => {
+              this.onSearch();
+            }}
           />
           <div className="px-2"></div>
           <Input
@@ -348,35 +400,46 @@ class CardTableCustomers2 extends React.Component {
               this.searchInput = node;
             }}
             placeholder={`Search Email`}
-            onChange={e => {}}
+            onChange={e => {
+              this.setState({ searchEmail: e.target.value });
+            }}
             onPressEnter={() => {}}
-            style={{ width: 200, marginBottom: 8, display: 'block' }}
+            style={{ height: '40px', width: 200, display: 'block' }}
+            onSubmit={() => {
+              this.onSearch();
+            }}
           />
           <div className="px-2"></div>
-          <Input
-            ref={node => {
-              this.searchInput = node;
+          <RangePicker
+            style={{ height: '40px' }}
+            onChange={(fromMoment, toMoment) =>
+              this.setState({
+                searchDate: {
+                  from: fromMoment ? fromMoment[0].toISOString() : '',
+                  //   (toMoment[0]).toISOString(),
+                  to: fromMoment ? fromMoment[0].toISOString() : '',
+                  //   (toMoment[1]).toISOString(),
+                },
+              })
+            }
+            onSubmit={() => {
+              this.onSearch();
             }}
-            placeholder={`Search Birthday`}
-            onChange={e => {}}
-            onPressEnter={() => {}}
-            style={{ width: 200, marginBottom: 8, display: 'block' }}
           />
+
           <div className="px-2"></div>
           <Button
-            className="flex-auto"
+            className="fcenter flex-auto"
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              height: '40px',
+            }}
             type="primary"
             icon={<SearchOutlined />}
             onClick={() => {
-              this.fetch({
-                pagination,
-              });
-              notification['success']({
-                message: 'Success',
-                description: '',
-                duration: 1,
-                // placement: 'bottomRight',
-              });
+              this.onSearch();
             }}
             loading={loading}>
             Search
