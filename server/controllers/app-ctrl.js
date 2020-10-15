@@ -329,9 +329,9 @@ class AppCtrl {
     var store = req.query.store;
     var timestamp = req.query.timestamp;
     var query = '&code=' + code + '&hmac=' + hmac + '&store=' + store + '&timestamp=' + timestamp;
-    if (typeof store != 'string') return res.redirect('/vi/admin/settings' + query);
+    if (typeof store != 'string') return res.redirect('/vi/admin/customers' + query);
     const dataCheck = await SapoAppsvr.readOneSapoStore(store);
-    if (dataCheck) return res.redirect('/vi/admin/settings?install=success' + query);
+    if (dataCheck) return res.redirect('/vi/admin/customers?install=success' + query);
 
     var body = {
       code: code,
