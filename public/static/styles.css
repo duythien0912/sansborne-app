@@ -1,3 +1,37 @@
+.ant-btn-primary {
+    background: #cfba63 !important;
+    color: #2d363c !important;
+    border-color: #cfba63 !important;
+}
+
+.ant-menu.ant-menu-dark .ant-menu-item-selected, .ant-menu-submenu-popup.ant-menu-dark .ant-menu-item-selected {
+    background-color: #cfba63 !important;
+    color: #2d363c !important;
+    font-weight: bold;
+}
+
+.ant-menu-dark.ant-menu-horizontal>.ant-menu-item:hover {
+    background-color: #cfba63 !important;
+    color: #2d363c !important;
+}
+.ant-menu-horizontal > .ant-menu-item a{
+    font-weight: bold;
+}
+.ant-menu-dark .ant-menu-item-selected > a, .ant-menu-dark .ant-menu-item-selected > span > a, .ant-menu-dark .ant-menu-item-selected > a:hover, .ant-menu-dark .ant-menu-item-selected > span > a:hover{
+    color: #2d363c !important;
+    font-weight: bold;
+}
+
+.ant-menu-dark .ant-menu-item:hover > a > i, .ant-menu-dark .ant-menu-item:hover > a, .ant-menu-dark .ant-menu-item-active > a, .ant-menu-dark .ant-menu-submenu-active > a, .ant-menu-dark .ant-menu-submenu-open > a, .ant-menu-dark .ant-menu-submenu-selected > a, .ant-menu-dark .ant-menu-submenu-title:hover > a, .ant-menu-dark .ant-menu-item:hover > span > a, .ant-menu-dark .ant-menu-item-active > span > a, .ant-menu-dark .ant-menu-submenu-active > span > a, .ant-menu-dark .ant-menu-submenu-open > span > a, .ant-menu-dark .ant-menu-submenu-selected > span > a, .ant-menu-dark .ant-menu-submenu-title:hover > span > a{
+    color: #2d363c !important;
+    font-weight: bold;
+}
+
+.ant-layout-header, .ant-menu.ant-menu-dark, .ant-menu-dark .ant-menu-sub, .ant-menu.ant-menu-dark .ant-menu-sub{
+    background: #2d363c !important;
+}
+
+
 .fcenter {
     display: flex;
     justify-content: center;

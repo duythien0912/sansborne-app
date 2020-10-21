@@ -8,6 +8,7 @@ import { SelectLanguages } from '../../components/Header/SelectLanguages';
 import { userContext } from '../../context/user';
 import { FetchData, PostData } from '../../lib/api';
 import { gtagEvent } from '../../lib/gtag';
+import { notification } from 'antd';
 
 const LogoImage = styled('img')`
   height: 70px;
@@ -45,7 +46,12 @@ export function Dashboard({ t }) {
     try {
       await navigator.clipboard.writeText(copyMe);
       setCopySuccess(true);
-      alert('Copy Success');
+      notification['success']({
+        message: 'Copy Success',
+        description: '',
+        duration: 1,
+      });
+
       console.log(copyMe);
       gtagEvent({
         action: `user_copy_clipboard_${from}`,

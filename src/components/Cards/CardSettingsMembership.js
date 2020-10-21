@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { PostData } from '../../lib/api';
+import { notification } from 'antd';
 
 // components
 
@@ -31,10 +32,18 @@ export default function CardSettingsMembership() {
         },
       });
       if (res) {
-        alert('Save Success');
+        notification['success']({
+          message: 'Save Success',
+          description: '',
+          duration: 1,
+        });
       }
     } catch (e) {
-      alert(`Failed: ${e}`);
+      notification['error']({
+        message: `Failed: ${e}`,
+        description: '',
+        duration: 1,
+      });
     }
   };
 

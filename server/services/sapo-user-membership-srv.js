@@ -50,6 +50,7 @@ class UsersMembershipsvr {
       'state',
       'verified_email',
       'birthday',
+      'birthday_iso',
       'gender',
     ]);
     console.log(newData.note);

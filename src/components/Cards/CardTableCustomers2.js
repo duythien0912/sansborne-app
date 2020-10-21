@@ -1,9 +1,9 @@
-import { Table, Button, Input, Space, notification, DatePicker, Alert } from 'antd';
+import { Table, Button, Input, Space, notification, DatePicker, Alert, InputNumber, Breadcrumb } from 'antd';
 import 'antd/dist/antd.css';
 import React from 'react';
 import reqwest from 'reqwest';
 import Highlighter from 'react-highlight-words';
-import { SearchOutlined } from '@ant-design/icons';
+import { SearchOutlined, ReloadOutlined, HomeOutlined, UserOutlined } from '@ant-design/icons';
 
 const { RangePicker } = DatePicker;
 
@@ -22,6 +22,7 @@ class CardTableCustomers2 extends React.Component {
     searchName: '',
     searchPhone: '',
     searchEmail: '',
+    searchBirthday: undefined,
     searchDate: {
       from: '',
       to: '',
@@ -38,24 +39,24 @@ class CardTableCustomers2 extends React.Component {
           {/* <p>accepts_marketing: false addresses: {JSON.stringify(record.addresses)}</p>
 
           <p>default_address: {JSON.stringify(record.default_address)}</p> */}
-
-          <p>email: {record.email}</p>
-          <p>first_name: {record.first_name}</p>
-          <p>last_name: {record.last_name}</p>
-          <p>address1: {record.default_address.address1}</p>
-          <p>id: {record.id}</p>
-          <p>last_order_id: {record.last_order_id}</p>
-          <p>last_order_name: {record.last_order_name}</p>
-          <p>modified_on: {record.modified_on}</p>
-          <p>note: {record.note}</p>
-          <p>orders_count: {record.orders_count}</p>
-          <p>phone: {record.phone}</p>
-          <p>sapo_id: {record.sapo_id}</p>
-          <p>state: {record.state}</p>
-          <p>tags: {record.tags}</p>
-          <p>total_spent: {record.total_spent}</p>
-          <p>verified_email: {record.verified_email}</p>
-          <p>created_on: {record.created_on}</p>
+          {/* https://sansbornesaigon.mysapo.net/admin/customers/ */}
+          <a href={`https://sansbornesaigon.mysapo.net/admin/customers/${record.id}`} target="_blank" rel="noreferrer">
+            <p>Id: {record.id}</p>
+          </a>
+          <p>First Name: {record.first_name}</p>
+          <p>Last Name: {record.last_name}</p>
+          <p>Email: {record.email}</p>
+          <p>Phone: {record.phone}</p>
+          <p>Address1: {record.default_address.address1}</p>
+          <p>Note: {record.note}</p>
+          <p>Tags: {record.tags}</p>
+          <p>Total Spent: {record.total_spent}</p>
+          <p>Orders Count: {record.orders_count}</p>
+          <p>Last Order Id: {record.last_order_id}</p>
+          <p>Last Order Name: {record.last_order_name}</p>
+          <p>Modified On: {record.modified_on}</p>
+          <p>State: {record.state}</p>
+          <p>Created On: {record.created_on != null ? new Date(record.created_on).toLocaleDateString('vi-VN') : ''}</p>
         </div>
       ),
       rowExpandable: record => record.email !== 'Not Expandable',
@@ -163,20 +164,25 @@ class CardTableCustomers2 extends React.Component {
     });
   }
 
-  handleTableChange = (pagination, filters, sorter, extra) => {
-    // console.log('params', pagination, filters, sorter, extra);
-    const { searchName, searchPhone, searchEmail, searchDate } = this.state;
-    // this.fetch({
-    //   searchName,
-    //   searchPhone,
-    //   searchEmail,
-    //   searchDate,
-    //   sortField: sorter.field,
-    //   sortOrder: sorter.order,
-    //   sorter: sorter.length == undefined ? [sorter] : sorter,
-    //   pagination,
-    //   ...filters,
-    // });
+  handleTableChange = (paginationNew, filters, sorter, extra) => {
+    console.log('params', paginationNew, filters, sorter, extra);
+    const { pagination } = this.state;
+    if (pagination.current != paginationNew.current) {
+      this.setState({ pagination: paginationNew });
+      const { searchName, searchPhone, searchEmail, searchDate, searchBirthday } = this.state;
+      this.fetch({
+        searchName,
+        searchPhone,
+        searchEmail,
+        searchDate,
+        searchBirthday,
+        sortField: sorter.field,
+        sortOrder: sorter.order,
+        sorter: sorter.length == undefined ? [sorter] : sorter,
+        pagination: paginationNew,
+        ...filters,
+      });
+    }
   };
   fetch = (params = {}) => {
     this.setState({
@@ -194,7 +200,7 @@ class CardTableCustomers2 extends React.Component {
         data: data.data,
         pagination: {
           ...params.pagination,
-          total: 20, // 200 is mock data, you should read it from server
+          total: data.total, // 200 is mock data, you should read it from server
           // total: data.totalCount,
         },
       });
@@ -202,13 +208,14 @@ class CardTableCustomers2 extends React.Component {
   };
 
   onSearch = () => {
-    const { pagination, searchName, searchPhone, searchEmail, searchDate } = this.state;
+    const { pagination, searchName, searchPhone, searchEmail, searchDate, searchBirthday } = this.state;
     this.fetch({
       pagination,
       searchName,
       searchPhone,
       searchEmail,
       searchDate,
+      searchBirthday,
     });
     notification['success']({
       message: 'Success',
@@ -224,10 +231,12 @@ class CardTableCustomers2 extends React.Component {
         title: 'Name',
         key: 'name',
         sortDirections: ['descend'],
-        render: record =>
-          `${record != null && record.first_name != null ? record.first_name : ''}${
-            record != null && record.last_name != null ? ' ' + record.last_name : ''
-          }`,
+        render: record => (
+          <a href={`https://sansbornesaigon.mysapo.net/admin/customers/${record.id}`} target="_blank" rel="noreferrer">
+            {record != null && record.first_name != null ? record.first_name : ''}
+            {record != null && record.last_name != null ? ' ' + record.last_name : ''}
+          </a>
+        ),
         sorter: {
           compare: (a, b) => (a && b ? a.first_name.length - b.first_name.length : null),
           multiple: 1,
@@ -238,20 +247,20 @@ class CardTableCustomers2 extends React.Component {
         title: 'Phone',
         key: 'phone',
         render: record => record.phone,
-        sorter: {
-          compare: (a, b) => (a && b && a.phone != null && b.phone != null ? a.phone.length - b.phone.length : null),
-          multiple: 2,
-        },
+        filterMultiple: false,
+        onFilter: (value, record) => (record.phone || '').indexOf(value) === 0,
+        sorter: (a, b) => (a.phone || '').length - (b.phone || '').length,
+        sortDirections: ['descend', 'ascend'],
         // ...this.getColumnSearchProps('phone'),
       },
       {
         title: 'Email',
         key: 'email',
         dataIndex: 'email',
-        sorter: {
-          compare: (a, b) => a.length - b.length,
-          multiple: 4,
-        },
+        filterMultiple: false,
+        onFilter: (value, record) => (record.email || '').indexOf(value) === 0,
+        sorter: (a, b) => (a.email || '').length - (b.email || '').length,
+        sortDirections: ['descend', 'ascend'],
         // ...this.getColumnSearchProps('email'),
       },
       {
@@ -259,11 +268,31 @@ class CardTableCustomers2 extends React.Component {
         key: 'birthday',
         dataIndex: 'birthday',
         render: record => `${record ? new Date(record).toLocaleDateString('vi-VN') : ''}`,
-        sorter: {
-          compare: (a, b) => new Date(a) - new Date(b),
-          multiple: 3,
-        },
+        filterMultiple: false,
+        onFilter: (value, record) => (record.birthday || '').indexOf(value) === 0,
+        sorter: (a, b) => (a.birthday || '').length - (b.birthday || '').length,
+        sortDirections: ['descend', 'ascend'],
         // ...this.getColumnSearchProps('birthday'),
+      },
+      {
+        title: 'Membership',
+        dataIndex: 'class',
+        key: 'class',
+        render: record => `${(record || 'member').toUpperCase()}`,
+        filterMultiple: false,
+        filters: [
+          {
+            text: 'Gold',
+            value: 'gold',
+          },
+          {
+            text: 'Member',
+            value: 'member',
+          },
+        ],
+        onFilter: (value, record) => (record.class || 'member').indexOf(value) === 0,
+        sorter: (a, b) => (a.class || '').length - (b.class || '').length,
+        sortDirections: ['descend', 'ascend'],
       },
       {
         title: 'Gender',
@@ -279,15 +308,13 @@ class CardTableCustomers2 extends React.Component {
             value: 'female',
           },
         ],
+        onFilter: (value, record) => (record.gender || '').indexOf(value) === 0,
       },
       {
         title: 'Total Spent',
         key: 'total_spent',
         dataIndex: 'total_spent',
-        sorter: {
-          compare: (a, b) => parseInt(a) - parseInt(b),
-          multiple: 5,
-        },
+        sorter: (a, b) => (a.total_spent || 0) - (b.total_spent || 0),
       },
       //   {
       //     title: 'Orders Count',
@@ -333,13 +360,55 @@ class CardTableCustomers2 extends React.Component {
       tableColumns[tableColumns.length - 1].fixed = 'right';
     }
 
-    const { data, loading, pagination } = this.state;
+    const { data, loading, pagination, searchBirthday } = this.state;
+    const { searchName, searchPhone, searchEmail } = this.state;
 
     return (
       <div className="bg-white rounded px-3 py-2">
-        <div className="mb-2 flex flex-row-reverse">
+        <div
+          className="mb-2 flex flex-row"
+          style={{
+            justifyContent: 'space-between',
+          }}>
+          <div className="flex flex-row fcenter">
+            <span className="px-2">Have birthdays in the next</span>{' '}
+            <InputNumber
+              ref={node => {
+                this.searchInput = node;
+              }}
+              // defaultValue={searchBirthday}
+              formatter={value => `${value}`}
+              placeholder={`Birthday`}
+              onChange={value => {
+                this.setState({ searchBirthday: value });
+              }}
+              onPressEnter={() => {
+                this.onSearch();
+              }}
+              value={searchBirthday}
+              style={{
+                height: '30px',
+                width: 100,
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+              onSubmit={() => {
+                this.onSearch();
+              }}
+            />
+            <span className="px-2"> days</span>
+          </div>
           <Button
             // type="primary"
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              height: '40px',
+              maxWidth: '200px',
+            }}
+            icon={<ReloadOutlined />}
             onClick={() => {
               this.fetch({
                 pagination,
@@ -352,65 +421,79 @@ class CardTableCustomers2 extends React.Component {
                   from: '',
                   to: '',
                 },
+                searchBirthday: undefined,
               });
               notification['success']({
                 message: 'Success',
                 description: '',
                 duration: 1,
-                // placement: 'bottomRight',
               });
             }}
             loading={loading}>
             Reload
-          </Button>
+          </Button>{' '}
         </div>
-        <div className="mb-2 flex fcenter">
-          <Input
-            ref={node => {
-              this.searchInput = node;
-            }}
-            placeholder={`Search Name`}
-            onChange={e => {
-              this.setState({ searchName: e.target.value });
-            }}
-            onPressEnter={() => {}}
-            style={{ height: '40px', width: 200, display: 'block' }}
-            onSubmit={() => {
-              this.onSearch();
-            }}
-          />
-          <div className="px-2"></div>
-          <Input
-            ref={node => {
-              this.searchInput = node;
-            }}
-            placeholder={`Search Phone`}
-            onChange={e => {
-              this.setState({ searchPhone: e.target.value });
-            }}
-            onPressEnter={() => {}}
-            style={{ height: '40px', width: 200, display: 'block' }}
-            onSubmit={() => {
-              this.onSearch();
-            }}
-          />
-          <div className="px-2"></div>
-          <Input
-            ref={node => {
-              this.searchInput = node;
-            }}
-            placeholder={`Search Email`}
-            onChange={e => {
-              this.setState({ searchEmail: e.target.value });
-            }}
-            onPressEnter={() => {}}
-            style={{ height: '40px', width: 200, display: 'block' }}
-            onSubmit={() => {
-              this.onSearch();
-            }}
-          />
-          <div className="px-2"></div>
-          <RangePicker
+        <div
+          className="mb-2 flex fcenter"
+          style={{
+            justifyContent: 'space-between',
+          }}>
+          <div className="flex flex-row fcenter">
+            <Input
+              value={searchName}
+              ref={node => {
+                this.searchInput = node;
+              }}
+              placeholder={`Search Name`}
+              onChange={e => {
+                this.setState({ searchName: e.target.value });
+              }}
+              onPressEnter={() => {
+                this.onSearch();
+              }}
+              style={{ height: '40px', width: 200, display: 'block' }}
+              onSubmit={() => {
+                this.onSearch();
+              }}
+            />
+            <div className="px-2"></div>
+            <Input
+              value={searchPhone}
+              ref={node => {
+                this.searchInput = node;
+              }}
+              placeholder={`Search Phone`}
+              onChange={e => {
+                this.setState({ searchPhone: e.target.value });
+              }}
+              onPressEnter={() => {
+                this.onSearch();
+              }}
+              style={{ height: '40px', width: 200, display: 'block' }}
+              onSubmit={() => {
+                this.onSearch();
+              }}
+            />
+            <div className="px-2"></div>
+            <Input
+              value={searchEmail}
+              ref={node => {
+                this.searchInput = node;
+              }}
+              placeholder={`Search Email`}
+              onChange={e => {
+                this.setState({ searchEmail: e.target.value });
+              }}
+              onPressEnter={() => {
+                this.onSearch();
+              }}
+              style={{ height: '40px', width: 200, display: 'block' }}
+              onSubmit={() => {
+                this.onSearch();
+              }}
+            />
+            <div className="px-2"></div>
+            {/* <RangePicker
             style={{ height: '40px' }}
             onChange={(fromMoment, toMoment) =>
               this.setState({
@@ -426,8 +509,8 @@ class CardTableCustomers2 extends React.Component {
               this.onSearch();
             }}
           />
-
-          <div className="px-2"></div>
+          <div className="px-2"></div> */}
+          </div>{' '}
           <Button
             className="fcenter flex-auto"
             style={{
@@ -435,6 +518,7 @@ class CardTableCustomers2 extends React.Component {
               justifyContent: 'center',
               alignItems: 'center',
               height: '40px',
+              maxWidth: '200px',
             }}
             type="primary"
             icon={<SearchOutlined />}
@@ -445,11 +529,18 @@ class CardTableCustomers2 extends React.Component {
             Search
           </Button>
         </div>
+        <div
+          className="mt-4 mb-2 flex flex-row"
+          style={{
+            justifyContent: 'space-between',
+          }}>
+          <div className="px-2"></div>
+        </div>
         <Table
           {...this.state}
           columns={tableColumns}
           scroll={scroll}
-          rowKey={record => record.id}
+          rowKey={record => record._id}
           dataSource={data}
           loading={loading}
           onChange={this.handleTableChange}

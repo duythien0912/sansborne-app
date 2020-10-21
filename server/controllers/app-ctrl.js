@@ -43,16 +43,17 @@ class AppCtrl {
       'searchPhone',
       'searchEmail',
       'searchDate',
+      'searchBirthday',
     ]);
     const { current, pageSize, position, total } = optionsSearch.pagination;
     const options = pick(query, ['limit', 'offset', 'sort']);
-    options.limit = pageSize;
-    options.offset = current;
+    options.limit = parseInt(pageSize);
+    options.offset = (parseInt(current) - 1) * parseInt(pageSize);
     options.searchName = optionsSearch.searchName;
     options.searchPhone = optionsSearch.searchPhone;
     options.searchEmail = optionsSearch.searchEmail;
     options.searchDate = optionsSearch.searchDate;
-    console.log(options);
+    options.searchBirthday = optionsSearch.searchBirthday;
 
     var filter = {};
     if (options.searchName != null && options.searchName != '') {
@@ -71,7 +72,7 @@ class AppCtrl {
         options.searchDate.to != null &&
         options.searchDate.to != ''
       ) {
-        filter.birthday = {
+        filter.created_at = {
           $gte: moment(options.searchDate.from)
             .endOf('day')
             .toDate(),
@@ -81,12 +82,23 @@ class AppCtrl {
         };
       }
     }
-
-    console.log(filter);
-    // filter.first_name = new RegExp(fullTextSearchVi(options.searchName), 'i');
-
-    const customers = await SapoCustomerSrv.searchMany(filter, options);
     const count = await SapoCustomerSrv.countDocuments(filter);
+
+    if (options.searchBirthday != null) {
+      if (options.searchBirthday != null && options.searchBirthday != '' && options.searchBirthday != 0) {
+        const customers = await SapoCustomerSrv.searchByBithday(parseInt(options.searchBirthday));
+
+        return res.ok({
+          data: customers,
+          limit: customers.length,
+          filter: filter,
+          total: customers.length,
+        });
+      }
+    }
+
+    // filter.first_name = new RegExp(fullTextSearchVi(options.searchName), 'i');
+    const customers = await SapoCustomerSrv.searchMany(filter, options);
     return res.ok({
       data: customers,
       limit: customers.length,
@@ -252,7 +264,7 @@ class AppCtrl {
         if (+achieved_date > +current_day) {
           await UsersMembershipsvr.updateOne(customer._id, customer);
           const userMemberVipUpdate = await UsersMembershipsvr.readOneSapo(sapo_id);
-          console.log(userMemberVipUpdate.note);
+          await SapoCustomerSrv.upsertOneBySapoId(userMemberVipUpdate);
           return userMemberVipUpdate;
         }
       }
@@ -301,6 +313,7 @@ class AppCtrl {
 
       // return userMemberVip;
       const userMemberVipUpdate = await UsersMembershipsvr.readOneSapo(vipCustomer.id);
+      await SapoCustomerSrv.upsertOneBySapoId(userMemberVipUpdate);
       return userMemberVipUpdate;
     }
   }
@@ -309,7 +322,6 @@ class AppCtrl {
     // const listAllHook = await request.request(`https://sansbornesaigon.mysapo.net/admin/oauth/access_token`);
 
     const data = await SapoAppsvr.readOneSapoStore('sansbornesaigon.mysapo.net');
-    console.log(data);
 
     const listAllHook = await request.request(`${sapoBaseUrl}/admin/webhooks/count.json`, {
       method: 'GET',
@@ -319,8 +331,9 @@ class AppCtrl {
         'X-Sapo-Access-Token': data.access_token,
       },
     });
-    console.log(listAllHook);
-    return res.ok({});
+    return res.ok({
+      all_hook: listAllHook,
+    });
   }
 
   static async saveInstallSuccess(req, res) {

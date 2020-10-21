@@ -561,7 +561,7 @@ class SapoCtrl {
       const bodycustomer = { customer: req.body.customer };
       const body = await SapoCtrl.updateCustomerPost(req.query.sapo_id, bodycustomer);
       body.customer.birthday = req.body.birthday;
-      body.customer.birthday_iso = moment(req.body.birthday).format('YYYY-MM-DD HH:mm:ss');
+      body.customer.birthday_iso = new Date(req.body.birthday);
       body.customer.gender = req.body.gender;
       const user = await SapoCustomerSrv.updateOneBySapoId(body.customer);
 

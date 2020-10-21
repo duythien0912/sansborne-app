@@ -8,6 +8,7 @@ import Router from 'next/router';
 import React, { useState } from 'react';
 // import Link from 'next/link';
 import Auth from 'layouts/Auth.js';
+import { notification } from 'antd';
 
 export default function Login() {
   const [storeDomain, setStoreDomain] = useState('sansbornesaigon.mysapo.net');
@@ -25,7 +26,11 @@ export default function Login() {
         `https://${storeDomain}/admin/oauth/authorize?client_id=${api_key}&scope=${scopes}&redirect_uri=${redirect_uri}`
       );
     } catch (e) {
-      alert(`Failed: ${e}`);
+      notification['error']({
+        message: `Failed: ${e}`,
+        description: '',
+        duration: 1,
+      });
     }
   };
 

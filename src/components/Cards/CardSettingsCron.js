@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 // import { PostData } from '../../lib/api';
+import { notification } from 'antd';
 
 // import PageChange from '../PageChange/PageChange';
 import SideBarLoading from '../Sidebar/Loading';
@@ -18,9 +19,17 @@ export default function CardSettingsMembership() {
     try {
       await FetchData(`/v1/cron/membership?time=${timeMemberShip}&stop=${!activeMemberShip}`);
       await FetchData(`/v1/cron/sapo?time=${timeBackUp}&stop=${!activeBackup}`);
-      alert('Save Success');
+      notification['success']({
+        message: 'Save Success',
+        description: '',
+        duration: 1,
+      });
     } catch (e) {
-      alert(`Failed: ${e}`);
+      notification['error']({
+        message: `Failed: ${e}`,
+        description: '',
+        duration: 1,
+      });
     }
   };
 

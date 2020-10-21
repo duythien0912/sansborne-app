@@ -10,9 +10,10 @@ class SapoCustomerSrv {
       .sort(options.sort);
   }
   static async searchMany(query, options) {
+    console.log(options);
     return Customers.find(query)
       .limit(+options.limit || 10)
-      .skip(+options.offset - 1)
+      .skip(+options.offset)
       .sort(options.sort);
   }
   static async countDocuments(query) {
@@ -50,6 +51,7 @@ class SapoCustomerSrv {
       'total_spent',
       'orders_count',
       'birthday',
+      'birthday_iso',
       'gender',
     ]);
 
@@ -87,6 +89,11 @@ class SapoCustomerSrv {
         'modified_on',
         'state',
         'verified_email',
+        'birthday',
+        'birthday_iso',
+        'class_achieved_date',
+        'class_upgrade_date',
+        'class',
       ]);
       console.log(newData.note);
 
@@ -148,8 +155,164 @@ class SapoCustomerSrv {
 
     return deletedCount > 0;
   }
+
+  static async searchByBithday(_daysTill) {
+    var today = new Date();
+    var a1 = {
+      $addFields: {
+        today: {
+          $dateFromParts: {
+            year: { $year: today },
+            month: { $month: today },
+            day: { $dayOfMonth: today },
+          },
+        },
+        birthdayThisYear: {
+          $dateFromParts: {
+            year: { $year: today },
+            month: { $month: '$birthday_iso' },
+            day: { $dayOfMonth: '$birthday_iso' },
+          },
+        },
+        birthdayNextYear: {
+          $dateFromParts: {
+            year: { $add: [1, { $year: today }] },
+            month: { $month: '$birthday_iso' },
+            day: { $dayOfMonth: '$birthday_iso' },
+          },
+        },
+      },
+    };
+    var a2 = {
+      $addFields: {
+        nextBirthday: {
+          $cond: [{ $gte: ['$birthdayThisYear', '$today'] }, '$birthdayThisYear', '$birthdayNextYear'],
+        },
+      },
+    };
+    var p1 = {
+      $project: {
+        _id: 1,
+        sapo_id: 1,
+        accepts_marketing: 1,
+        addresses: 1,
+        created_on: 1,
+        default_address: 1,
+        email: 1,
+        first_name: 1,
+        id: 1,
+        last_name: 1,
+        last_order_id: 1,
+        last_order_name: 1,
+        modified_on: 1,
+        note: 1,
+        orders_count: 1,
+        phone: 1,
+        state: 1,
+        tags: 1,
+        total_spent: 1,
+        verified_email: 1,
+        birthday: 1,
+        gender: 1,
+        updated_at: 1,
+        birthday_iso: 1,
+        class: 1,
+        class_achieved_date: 1,
+        class_upgrade_date: 1,
+        daysTillNextBirthday: {
+          $divide: [{ $subtract: ['$nextBirthday', '$today'] }, 24 * 60 * 60 * 1000 /* milliseconds in a day */],
+        },
+      },
+    };
+    var s1 = { $sort: { daysTillNextBirthday: 1 } };
+    var m1 = { $match: { daysTillNextBirthday: { $lte: _daysTill } } };
+
+    return Customers.aggregate([a1, a2, p1, s1, m1]);
+  }
 }
 
 module.exports = {
   SapoCustomerSrv,
 };
+
+
+// Check bd
+
+// var today = new Date();
+// var a1 = {
+//   $addFields: {
+//     today: {
+//       $dateFromParts: {
+//         year: { $year: today },
+//         month: { $month: today },
+//         day: { $dayOfMonth: today },
+//       },
+//     },
+//     birthdayThisYear: {
+//       $dateFromParts: {
+//         year: { $year: today },
+//         month: { $month: "$birthday_iso" },
+//         day: { $dayOfMonth: "$birthday_iso" },
+//       },
+//     },
+//     birthdayNextYear: {
+//       $dateFromParts: {
+//         year: { $add: [1, { $year: today }] },
+//         month: { $month: "$birthday_iso" },
+//         day: { $dayOfMonth: "$birthday_iso" },
+//       },
+//     },
+//   },
+// };
+// var a2 = {
+//   $addFields: {
+//     nextBirthday: {
+//       $cond: [
+//         { $gte: ["$birthdayThisYear", "$today"] },
+//         "$birthdayThisYear",
+//         "$birthdayNextYear",
+//       ],
+//     },
+//   },
+// };
+// var p1 = {
+//   $project: {
+//     _id: 1,
+//     sapo_id: 1,
+//     accepts_marketing: 1,
+//     addresses: 1,
+//     created_on: 1,
+//     default_address: 1,
+//     email: 1,
+//     first_name: 1,
+//     id: 1,
+//     last_name: 1,
+//     last_order_id: 1,
+//     last_order_name: 1,
+//     modified_on: 1,
+//     note: 1,
+//     orders_count: 1,
+//     phone: 1,
+//     state: 1,
+//     tags: 1,
+//     total_spent: 1,
+//     verified_email: 1,
+//     birthday: 1,
+//     gender: 1,
+//     updated_at: 1,
+//     birthday_iso: 1,
+//     class: 1,
+//     class_achieved_date: 1,
+//     class_upgrade_date: 1,
+//     daysTillNextBirthday: {
+//       $divide: [
+//         { $subtract: ["$nextBirthday", "$today"] },
+//         24 * 60 * 60 * 1000 /* milliseconds in a day */,
+//       ],
+//     },
+//   },
+// };
+// var s1 = { $sort: { daysTillNextBirthday: 1 } };
+// var m1 = { $match: { daysTillNextBirthday: { $lte: 25 } } };
+
+// db.getCollection("customers").aggregate([a1, a2, p1, s1, m1]);

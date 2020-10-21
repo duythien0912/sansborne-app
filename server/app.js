@@ -47,10 +47,10 @@ const signale = new Signale(options);
 
   await server.listen(port);
   signale.success(`<> React Next Boilerplate ready on localhost:${port}`);
-  membershipCron.start();
+  // membershipCron.start();
 
-  AppCtrl.startCronMembership('*/5 * * * *');
-  AppCtrl.startCronSyncSapoData('*/5 * * * *');
+  // AppCtrl.startCronMembership('*/5 * * * *');
+  // AppCtrl.startCronSyncSapoData('*/5 * * * *');
 
   logger.info(`app listen ${port} port`);
 })();
