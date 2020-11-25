@@ -117,6 +117,14 @@ class AppCtrl {
     });
   }
 
+  static async getMembershipSetting(req, res) {
+    const memberRule = await Membershipsvr.readOneByType('sapo');
+    return res.ok({
+      data: memberRule,
+      status: 'ok',
+    });
+  }
+
   // get user from table user_membership with id
   static async getUserMembership(req, res) {
     if (!req.query.sapo_id) return res.notFound({ message: 'sapo_id not found' });

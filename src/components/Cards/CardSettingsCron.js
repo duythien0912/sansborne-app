@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
 // import { PostData } from '../../lib/api';
 import { notification } from 'antd';
-
-// import PageChange from '../PageChange/PageChange';
-import SideBarLoading from '../Sidebar/Loading';
+import 'antd/dist/antd.css';
+import React, { useEffect, useState } from 'react';
 import { FetchData } from '../../lib/api';
+// import PageChange from '../PageChange/PageChange';
+import { Loading2 } from '../Sidebar/Loading';
 
 // components
 
@@ -50,7 +50,7 @@ export default function CardSettingsMembership() {
     fetchData();
   }, []);
 
-  if (isLoading) return SideBarLoading();
+  if (isLoading) return Loading2();
 
   return (
     <>

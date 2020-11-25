@@ -1,11 +1,9 @@
-import { Table, Button, Input, Space, notification, DatePicker, Alert, InputNumber, Breadcrumb } from 'antd';
+import { Table, Button, Input, Space, notification, InputNumber } from 'antd';
 import 'antd/dist/antd.css';
 import React from 'react';
 import reqwest from 'reqwest';
 import Highlighter from 'react-highlight-words';
-import { SearchOutlined, ReloadOutlined, HomeOutlined, UserOutlined } from '@ant-design/icons';
-
-const { RangePicker } = DatePicker;
+import { SearchOutlined, ReloadOutlined } from '@ant-design/icons';
 
 const getRandomuserParams = params => {
   return {
@@ -40,14 +38,17 @@ class CardTableCustomers2 extends React.Component {
 
           <p>default_address: {JSON.stringify(record.default_address)}</p> */}
           {/* https://sansbornesaigon.mysapo.net/admin/customers/ */}
-          <a href={`https://sansbornesaigon.mysapo.net/admin/customers/${record.id}`} target="_blank" rel="noreferrer">
-            <p>Id: {record.id}</p>
+          <a
+            href={`https://sansbornesaigon.mysapo.net/admin/customers/${record.id || record.sapo_id}`}
+            target="_blank"
+            rel="noreferrer">
+            <p>Id: {record.id || record.sapo_id}</p>
           </a>
           <p>First Name: {record.first_name}</p>
           <p>Last Name: {record.last_name}</p>
           <p>Email: {record.email}</p>
           <p>Phone: {record.phone}</p>
-          <p>Address1: {record.default_address.address1}</p>
+          <p>Address1: {record?.default_address?.address1 || ''}</p>
           <p>Note: {record.note}</p>
           <p>Tags: {record.tags}</p>
           <p>Total Spent: {record.total_spent}</p>
@@ -232,7 +233,10 @@ class CardTableCustomers2 extends React.Component {
         key: 'name',
         sortDirections: ['descend'],
         render: record => (
-          <a href={`https://sansbornesaigon.mysapo.net/admin/customers/${record.id}`} target="_blank" rel="noreferrer">
+          <a
+            href={`https://sansbornesaigon.mysapo.net/admin/customers/${record.id || record.sapo_id}`}
+            target="_blank"
+            rel="noreferrer">
             {record != null && record.first_name != null ? record.first_name : ''}
             {record != null && record.last_name != null ? ' ' + record.last_name : ''}
           </a>

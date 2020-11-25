@@ -1,10 +1,14 @@
-import React, { useState } from 'react';
-import { PostData } from '../../lib/api';
 import { notification } from 'antd';
+import 'antd/dist/antd.css';
+import React, { useEffect, useState } from 'react';
+import { FetchData, PostData } from '../../lib/api';
+import { Loading2 } from '../Sidebar/Loading';
 
 // components
 
 export default function CardSettingsMembership() {
+  const [isLoading, setIsLoading] = useState(true);
+
   const [moneyUpgrade, setMoneyUpgrade] = useState(3000000);
   const [DaysUpgrade, setDaysUpgrade] = useState(0);
   const [MonthsUpgrade, setMonthsUpgrade] = useState(3);
@@ -46,6 +50,27 @@ export default function CardSettingsMembership() {
       });
     }
   };
+
+  useEffect(() => {
+    async function fetchData() {
+      var rule = await FetchData(`/v1/membership/rule`);
+      if (rule.status == 'ok') {
+        setMoneyUpgrade(rule.data.moneyUpgrade);
+        setDaysUpgrade(rule.data.DaysUpgrade);
+        setMonthsUpgrade(rule.data.MonthsUpgrade);
+        setYearsUpgrade(rule.data.YearsUpgrade);
+        setMoneyAchieve(rule.data.moneyAchieve);
+        setDaysAchieve(rule.data.DaysAchieve);
+        setMonthsAchieve(rule.data.MonthsAchieve);
+        setYearsAchieve(rule.data.YearsAchieve);
+      }
+
+      setIsLoading(false);
+    }
+    fetchData();
+  }, []);
+
+  if (isLoading) return Loading2();
 
   return (
     <>

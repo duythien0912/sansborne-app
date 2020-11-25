@@ -6,6 +6,8 @@ const { AppCtrl } = require('../controllers');
 appRt.get('/v1/events', AppCtrl.getManyEvent);
 appRt.get('/v1/customers', AppCtrl.getManyCustomer);
 
+appRt.get('/v1/membership/rule', AppCtrl.getMembershipSetting);
+
 appRt.post('/v1/membership', AppCtrl.updateMembershipSetting);
 
 appRt.get('/v1/membership', AppCtrl.getUserMembership);
